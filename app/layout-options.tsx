@@ -21,7 +21,7 @@ export const layoutOptions: Omit<DocsLayoutProps, "children"> = {
     links: [
       {
         label: "Discord",
-        href: "https://discord.gg/6cpcbKwjBn",
+        href: "https://discord.gg/P2yDJuHVKq",
         icon: <Discord className="h-6 w-6" />,
       },
     ],

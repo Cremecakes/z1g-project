@@ -24,7 +24,7 @@ export default async function Page({
       tableOfContent={{
         footer: (
           <a
-            href={`https://github.com/z1g-project/docs/tree/main/${path}`}
+            href={`https://github.com/z1g-project/web/tree/main/${path}`}
             target="_blank"
             rel="noreferrer noopener"
             className="inline-flex items-center text-xs text-muted-foreground hover:text-foreground"
