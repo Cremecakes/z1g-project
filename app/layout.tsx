@@ -15,8 +15,8 @@ export const metadata: Metadata = {
   description: "The Next.js framework for building documentation sites",
   metadataBase:
     process.env.NODE_ENV === "development"
-      ? new URL("https://pf4jj8zb-3001.use.devtunnels.ms")
-      : new URL(`https://${process.env.VERCEL_URL}`),
+      ? new URL(process.env.LOCAL_URL ?? "http://localhost:3000")
+      : new URL(`https://z1g-project.vercel.app`),
 };
 
 export default function Layout({ children }: { children: ReactNode }) {
