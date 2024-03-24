@@ -21,6 +21,7 @@ export default async function Page({
   return (
     <DocsPage
       toc={page.data.exports.toc}
+      lastUpdate={page.data.exports.lastModified}
       tableOfContent={{
         footer: (
           <a
@@ -57,9 +58,23 @@ export function generateMetadata({ params }: { params: { slug?: string[] } }) {
   const page = getPage(params.slug);
 
   if (page == null) notFound();
+  const imageParams = new URLSearchParams();
+  const description = page.data.description ?? "";
+  imageParams.set("title", page.data.title);
+  imageParams.set("description", description);
 
+  const image = {
+    alt: "Banner",
+    url: `/api/og?${imageParams.toString()}`,
+    width: 1200,
+    height: 630,
+  };
   return {
     title: page.data.title,
     description: page.data.description,
+    openGraph: {
+      url: `/docs/${page.slugs.join("/")}`,
+      images: image,
+    },
   } satisfies Metadata;
 }
