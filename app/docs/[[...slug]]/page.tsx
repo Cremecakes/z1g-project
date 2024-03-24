@@ -29,7 +29,7 @@ export default async function Page({
             rel="noreferrer noopener"
             className="inline-flex items-center text-xs text-muted-foreground hover:text-foreground"
           >
-            Edit on GitLab <ExternalLinkIcon className="ml-1 size-3" />
+            Edit on GitHub <ExternalLinkIcon className="ml-1 size-3" />
           </a>
         ),
       }}
