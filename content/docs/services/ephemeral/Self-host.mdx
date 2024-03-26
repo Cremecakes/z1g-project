@@ -1,0 +1,50 @@
+---
+title: Self-Hosting Setup
+---
+
+import { Callout } from "fumadocs-ui/components/callout";
+import { Step, Steps } from "fumadocs-ui/components/steps";
+
+<Steps>
+<Step>
+## Clone the Repository  
+You can either fork or clone the repository. We're going to clone, Use the command below:  
+```sh
+git clone https://github.com/z1g-project/Ephemeral.git
+```  
+<Callout title="Cloning repository">Currently cloning the repository is not available due to the repo being private.</Callout>  
+</Step>
+
+<Step>
+# Setting up Ephemeral
+
+You're going to want to change directories into where you cloned the Github Repository.  
+```sh 
+cd Ephemeral
+```
+</Step>
+
+<Step>
+## Installing dependencies
+
+We prefer using pnpm (its literally a requirement)  
+install pnpm by using the following command:  
+```sh
+npm install pnpm -g
+```
+After installing pnpm, you're going to install the dependencies required by Ephemeral  
+This is by using the following command below:
+```sh
+pnpm i
+```
+</Step>
+
+<Step>
+After all that yapping, To finally RUN Ephemeral. Just run:  
+```sh
+pnpm dev
+```
+
+</Step>
+
+</Steps>
