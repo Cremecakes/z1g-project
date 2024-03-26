@@ -16,6 +16,7 @@ export default function ProjectsPage() {
         {projects.map((project) => {
           return (
             <div key={project.url}>
+              <img src={project.img}></img>
               <h1>{project.title}</h1>
             </div>
           );
