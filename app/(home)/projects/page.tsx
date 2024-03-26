@@ -20,6 +20,7 @@ export default function ProjectsPage() {
                 src={project.img}
                 height={200}
                 width={500}
+                />
               <h1>{project.title}</h1>
             </div>
           );
