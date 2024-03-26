@@ -1,7 +1,8 @@
 [
   {
     "title": "Sodium",
-    "github": "...",
-    "url": "..."
+    "img": "https://z1g-project.vercel.app/_next/image?url=%2F_next%2Fstatic%2Fmedia%2Fsodium-prev-v2.150f612e.png&w=828&q=75",
+    "github": "https://github.com/z1g-project/sodium",
+    "url": "https://z1g-project.pages.dev"
   }
 ]
