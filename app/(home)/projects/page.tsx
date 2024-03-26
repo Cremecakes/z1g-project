@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-
+import Image from "next/image";
 import projects from "@/app/projects.json";
 
 export const metadata: Metadata = {
@@ -16,7 +16,10 @@ export default function ProjectsPage() {
         {projects.map((project) => {
           return (
             <div key={project.url}>
-              <img src={project.img}></img>
+              <Image
+                src={project.img}
+                height={200}
+                width={500}
               <h1>{project.title}</h1>
             </div>
           );
