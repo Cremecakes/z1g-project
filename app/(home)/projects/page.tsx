@@ -1,9 +1,10 @@
 import type { Metadata } from "next";
 
-import projects from "../projects.json";
+import projects from "@/app/projects.json";
 
 export const metadata: Metadata = {
-  description: "THe z1g Project - Projects",
+  title: "Projects",
+  description: "The z1g Project - Projects",
 };
 
 export default function ProjectsPage() {
@@ -14,12 +15,12 @@ export default function ProjectsPage() {
       <div className="grid grid-cols-3 gap-4">
         {projects.map((project) => {
           return (
-            <div>
+            <div key={project.url}>
               <h1>{project.title}</h1>
             </div>
-          )
+          );
         })}
       </div>
     </main>
-  )
+  );
 }

@@ -1,7 +1,7 @@
 import Link from "next/link";
 import type { Metadata } from "next";
 
-import links from "../links.json"
+import links from "../links.json";
 
 export const metadata: Metadata = {
   description: "The Homepage of the z1g Project",
@@ -20,11 +20,16 @@ export default function HomePage() {
 
       <ul>
         {links.map((link) => {
-          return (<li>
-            <Link href={link.url} className="text-foreground font-semibold underline">
-              {link.title}
-            </Link>
-          </li>)
+          return (
+            <li key={link.url}>
+              <Link
+                href={link.url}
+                className="text-foreground font-semibold underline hover:text-accent-foreground duration-300"
+              >
+                {link.title}
+              </Link>
+            </li>
+          );
         })}
       </ul>
     </main>
