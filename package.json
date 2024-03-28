@@ -16,12 +16,16 @@
     ]
   },
   "dependencies": {
+    "@neondatabase/serverless": "^0.9.0",
     "@vercel/speed-insights": "^1.0.10",
+    "dotenv": "^16.4.5",
+    "drizzle-orm": "^0.30.5",
     "fumadocs-core": "^10.1.1",
     "fumadocs-mdx": "^8.2.6",
     "fumadocs-ui": "^10.1.1",
     "lucide-react": "^0.363.0",
     "next": "^14.1.4",
+    "pg": "^8.11.3",
     "prettier": "^3.2.5",
     "prettier-plugin-tailwindcss": "^0.5.12",
     "react": "^18.2.0",
@@ -30,9 +34,11 @@
   "devDependencies": {
     "@types/mdx": "^2.0.12",
     "@types/node": "20.11.30",
+    "@types/pg": "^8.11.4",
     "@types/react": "^18.2.69",
     "@types/react-dom": "^18.2.22",
     "autoprefixer": "^10.4.19",
+    "drizzle-kit": "^0.20.14",
     "eslint": "8.57.0",
     "eslint-config-next": "14.1.4",
     "postcss": "^8.4.38",
