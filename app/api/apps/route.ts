@@ -1,8 +1,20 @@
 import { db } from "@/drizzle";
 import { app as appSchema } from "@/drizzle/schema";
 export async function GET() {
-  const apps = await db.select().from(appSchema);
-  return Response.json(apps);
+  try {
+  const data = await db.select().from(appSchema)
+  return Response.json({ status: "success", data });
+} catch (error) {
+  console.error(error);
+  return Response.json({
+    status: "error",
+    error: {
+      message: "An error occurred while retrieving the apps",
+      detail: error,
+    },
+  }, { status: 500 });
 }
+}
+// edging
 export const runtime = "edge";
 export const dynamic = "force-dynamic";
