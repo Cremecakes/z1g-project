@@ -10,13 +10,14 @@ const authConfig: NextAuthOptions = {
     error: "/auth/error",
   },
   callbacks: {
-    signIn: async ({ profile }) => {
-      const { email } = profile || {};
+    signIn: async ({ account }) => {
+      const { providerAccountId: id } = account || {};
       const userQuery = await db
         .select()
         .from(user)
-        .where(eq(user.email, email || ""));
-      return userQuery[0].isAdmin;
+        .where(eq(user.id, id || ""));
+     if (!userQuery[0]) return false;
+     return userQuery[0].isAdmin ?? false;
     },
   },
   providers: [

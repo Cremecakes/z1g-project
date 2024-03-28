@@ -1,5 +1,6 @@
 import "./global.css";
 import { RootProvider } from "fumadocs-ui/provider";
+import { Toaster } from "@/components/ui/toaster";
 import { SpeedInsights } from "@vercel/speed-insights/next";
 import { Metadata } from "next";
 import { Inter } from "next/font/google";
@@ -24,7 +25,10 @@ export default function Layout({ children }: { children: ReactNode }) {
   return (
     <html lang="en" className={inter.className} suppressHydrationWarning>
       <body>
-        <RootProvider>{children}</RootProvider>
+        <RootProvider>
+          <Toaster />
+          {children}
+        </RootProvider>
         <SpeedInsights />
       </body>
     </html>
