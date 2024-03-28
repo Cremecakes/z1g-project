@@ -34,15 +34,19 @@ export const layoutOptions: Omit<DocsLayoutProps, "children"> = {
         </span>
       </>
     ),
-    children: links.map((link) => (
-      <Link
-        key={link.href}
-        href={link.href}
-        className="hover:text-foreground text-muted-foreground text-sm duration-300"
-      >
-        {link.label}
-      </Link>
-    )),
+    children: (
+      <>
+        {links.map((link) => (
+          <Link
+            key={link.href}
+            href={link.href}
+            className="hover:text-foreground text-muted-foreground text-sm duration-300"
+          >
+            {link.label}
+          </Link>
+        ))}
+      </>
+    ),
     transparentMode: "top",
     links: [
       {

@@ -16,12 +16,7 @@ export default function ProjectsPage() {
         {projects.map((project) => {
           return (
             <div key={project.url}>
-              <Image
-                src={project.img}
-                height={200}
-                width={500}
-                alt="Sodium"
-                />
+              <Image src={project.img} height={200} width={500} alt="Sodium" />
               <h1>{project.title}</h1>
             </div>
           );
