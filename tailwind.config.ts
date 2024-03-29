@@ -73,6 +73,6 @@ const config: Config = {
       },
     },
   },
-  presets: [createPreset()],
+  presets: [createPreset(), require("tailwindcss-animate")],
 };
 export default config;
