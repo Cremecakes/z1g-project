@@ -2,7 +2,7 @@
 import { useState } from "react";
 import { redirect, useSearchParams } from "next/navigation";
 import { signIn, useSession } from "next-auth/react";
-import { CardContent, CardTitle } from "@/components/ui/card";
+import { CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 import { Button } from "@/components/ui/button";
 import { Loader2, LogIn, AlertCircle } from "lucide-react";
@@ -17,6 +17,10 @@ export default function Login() {
   return (
     <>
       <CardTitle className="text-center">Welcome</CardTitle>
+      <CardHeader className="text-center">
+        This is only for z1g developers. If you aren&apos;t one, you will not be
+        able to log in.
+      </CardHeader>
       <CardContent className="m-2 w-full flex-col">
         {error && (
           <Alert variant="destructive" className="w-full text-destructive">

@@ -8,7 +8,7 @@ export default async function LoginLayout({
   return (
     <Session {...{ session }}>
       <main className="min-h-screen bg-background">
-        <section className="flex min-h-screen items-center justify-center">
+        <section className="flex min-h-screen items-center justify-center flex-col">
           <Card className="mx-auto flex min-h-72 w-96 flex-col items-center justify-center bg-foreground/10 py-12 backdrop-blur-md">
             {children}
           </Card>
