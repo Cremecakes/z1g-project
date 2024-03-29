@@ -1,17 +1,10 @@
 "use client";
-import { useRouter } from "next/navigation";
-import { useState } from "react";
-import { app as appSchema, insertAppSchema } from "@/drizzle/schema";
+import { useState, useEffect } from "react";
+import { app as appSchema } from "@/drizzle/schema";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { useToast } from "@/components/ui/use-toast";
-import {
-  Tooltip,
-  TooltipContent,
-  TooltipProvider,
-  TooltipTrigger,
-} from "@/components/ui/tooltip";
 import {
   Select,
   SelectContent,
@@ -38,41 +31,54 @@ import {
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Skeleton } from "@/components/ui/skeleton";
-import useSWR from "swr";
+import useSWR, { useSWRConfig } from "swr";
 import { ListRestartIcon, PencilIcon, Save, TrashIcon } from "lucide-react";
 const fetcher = (url: string) =>
   fetch(url).then((res) => res.json().then(({ data }) => data));
 const deleteAppSchema = z.object({
   name: z.string(),
 });
+const insertAppSchema = z.object({
+  name: z.string(),
+  description: z.string(),
+  url: z.string(),
+  image: z.string(),
+});
 export default function Page() {
   const { data: apps = [], isLoading } = useSWR<
     z.infer<typeof insertAppSchema>[]
   >("/api/apps", fetcher);
-  const router = useRouter();
+  const { mutate } = useSWRConfig();
   const { toast } = useToast();
-  const [inputValue, setInputValue] = useState<z.infer<typeof insertAppSchema>>(
-    {
-      name: "",
-      description: "",
-      url: "",
-      image: "",
-    },
-  );
+  const [inputValue, setInputValue] = useState({
+    name: "",
+    description: "",
+    url: "",
+    image: "",
+  });
   const [buttonIcon, setButtonIcon] = useState(<Save />);
   const deleteForm = useForm<z.infer<typeof deleteAppSchema>>({
     resolver: zodResolver(deleteAppSchema),
   });
   const createForm = useForm<z.infer<typeof insertAppSchema>>({
     resolver: zodResolver(insertAppSchema),
+    defaultValues: {
+      name: "",
+      description: "",
+      url: "",
+      image: "",
+    },
   });
+  useEffect(() => createForm.reset(inputValue), [inputValue]); // eslint-disable-line react-hooks/exhaustive-deps
   const formFields: {
     name: keyof z.infer<typeof insertAppSchema>;
     placeholder: string;
     className: string;
+    label?: string;
   }[] = [
     {
       name: "name",
+      label: "name (tip: use an existing app name to edit it)",
       placeholder: "app name",
       className: "w-56",
     },
@@ -114,29 +120,18 @@ export default function Page() {
                     <TableCell className="text-ellipsis w-1/4" key={key}>
                       {app[key as keyof typeof app]}
                       {key === "name" && (
-                        <TooltipProvider>
-                          <Tooltip>
-                            <TooltipTrigger>
-                              <Button
-                                key={key}
-                                className="ml-4 text-muted-foreground"
-                                size="sm"
-                                variant="ghost"
-                                onClick={() => {
-                                  setInputValue(app);
-                                  setButtonIcon(<PencilIcon />);
-                                }}
-                              >
-                                <PencilIcon className="size-4" />
-                              </Button>
-                            </TooltipTrigger>
-                            <TooltipContent>
-                              <div className="flex flex-col gap-1">
-                                Edit {app.name}
-                              </div>
-                            </TooltipContent>
-                          </Tooltip>
-                        </TooltipProvider>
+                        <Button
+                          key={key}
+                          className="ml-4 text-muted-foreground"
+                          size="sm"
+                          variant="ghost"
+                          onClick={() => {
+                            setInputValue(app);
+                            setButtonIcon(<PencilIcon />);
+                          }}
+                        >
+                          <PencilIcon className="size-4" />
+                        </Button>
                       )}
                     </TableCell>
                   ))}
@@ -174,7 +169,7 @@ export default function Page() {
                 return response.json();
               });
               createForm.reset();
-              router.refresh();
+              mutate("/api/apps");
               toast({
                 title: "Success",
                 description: "App added successfully",
@@ -196,7 +191,9 @@ export default function Page() {
                       <Input
                         {...field}
                         className={formField.className}
-                        defaultValue={inputValue[formField.name] as string}
+                        {...(formField.name === "name" && {
+                          disabled: !!inputValue.name,
+                        })}
                       />
                     </FormControl>
                   </FormItem>
@@ -211,16 +208,13 @@ export default function Page() {
               size="icon"
               variant="destructive"
               onClick={() => {
-                createForm.reset(undefined, {
-                  keepValues: false,
-                  keepErrors: false,
-                });
-                setInputValue({
-                  name: "",
-                  description: "",
-                  url: "",
-                  image: "",
-                });
+                createForm.reset(
+                  {},
+                  {
+                    keepValues: false,
+                    keepErrors: false,
+                  },
+                );
                 setButtonIcon(<Save />);
               }}
             >
@@ -257,7 +251,7 @@ export default function Page() {
               return response.json();
             });
             deleteForm.reset();
-            router.refresh();
+            mutate("/api/apps");
             toast({
               title: "Success",
               description: "App deleted successfully",

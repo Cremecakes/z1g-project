@@ -38,9 +38,7 @@
       "compositePrimaryKeys": {},
       "uniqueConstraints": {
         "app_name_unique": {
-          "columns": [
-            "name"
-          ],
+          "columns": ["name"],
           "nullsNotDistinct": false,
           "name": "app_name_unique"
         }
