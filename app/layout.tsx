@@ -3,12 +3,9 @@ import { RootProvider } from "fumadocs-ui/provider";
 import { Toaster } from "@/components/ui/toaster";
 import { SpeedInsights } from "@vercel/speed-insights/next";
 import { Metadata } from "next";
-import { Inter } from "next/font/google";
+import { GeistSans } from "geist/font/sans";
 import type { ReactNode } from "react";
 
-const inter = Inter({
-  subsets: ["latin"],
-});
 export const metadata: Metadata = {
   title: {
     template: "%s | z1g Project",
@@ -23,7 +20,7 @@ export const metadata: Metadata = {
 
 export default function Layout({ children }: { children: ReactNode }) {
   return (
-    <html lang="en" className={inter.className} suppressHydrationWarning>
+    <html lang="en" className={GeistSans.className} suppressHydrationWarning>
       <body>
         <RootProvider>
           <Toaster />

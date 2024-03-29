@@ -20,21 +20,7 @@ export default async function HomeLayout({
           ...layoutOptions.nav,
           children: (
             <>
-              {session && (
-                <>
-                  <div className="text-secondary-foreground text-sm flex justify-center items-center">
-                    <Image
-                      src={session?.user?.image as string}
-                      alt="User Image"
-                      width={25}
-                      height={25}
-                      className="rounded-full mr-2"
-                    />
-                    Welcome, {session?.user?.name || session?.user?.email}
-                  </div>
-                  <div className="text-foreground">|</div>
-                </>
-              )}
+              {session && <></>}
               {layoutOptions.nav && layoutOptions.nav.children}
               {session ? (
                 <>
@@ -50,6 +36,18 @@ export default async function HomeLayout({
                   >
                     Sign Out
                   </Link>
+                  <div className="text-foreground">|</div>
+
+                  <div className="text-secondary-foreground text-sm flex justify-center items-center">
+                    <Image
+                      src={session?.user?.image as string}
+                      alt="User Image"
+                      width={25}
+                      height={25}
+                      className="rounded-full mr-2"
+                    />
+                    Welcome, {session?.user?.name || session?.user?.email}
+                  </div>
                 </>
               ) : (
                 <Link

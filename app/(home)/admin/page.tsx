@@ -30,19 +30,18 @@ import {
 } from "@/components/ui/table";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
-import { Skeleton } from "@/components/ui/skeleton";
 import useSWR, { useSWRConfig } from "swr";
-import { ListRestartIcon, PencilIcon, Save, TrashIcon } from "lucide-react";
+import { Loader2, PencilIcon } from "lucide-react";
 const fetcher = (url: string) =>
   fetch(url).then((res) => res.json().then(({ data }) => data));
 const deleteAppSchema = z.object({
   name: z.string(),
 });
 const insertAppSchema = z.object({
-  name: z.string(),
-  description: z.string(),
-  url: z.string(),
-  image: z.string(),
+  name: z.string().min(2),
+  description: z.string().min(10),
+  url: z.string().url(),
+  image: z.string().url(),
 });
 export default function Page() {
   const { data: apps = [], isLoading } = useSWR<
@@ -50,60 +49,50 @@ export default function Page() {
   >("/api/apps", fetcher);
   const { mutate } = useSWRConfig();
   const { toast } = useToast();
+  const [disabledInput, setDisabledInput] = useState(false);
   const [inputValue, setInputValue] = useState({
     name: "",
     description: "",
     url: "",
     image: "",
   });
-  const [buttonIcon, setButtonIcon] = useState(<Save />);
+  const [buttonText, setButtonText] = useState("Save");
   const deleteForm = useForm<z.infer<typeof deleteAppSchema>>({
     resolver: zodResolver(deleteAppSchema),
   });
   const createForm = useForm<z.infer<typeof insertAppSchema>>({
     resolver: zodResolver(insertAppSchema),
-    defaultValues: {
-      name: "",
-      description: "",
-      url: "",
-      image: "",
-    },
+    defaultValues: inputValue,
   });
-  useEffect(() => createForm.reset(inputValue), [inputValue]); // eslint-disable-line react-hooks/exhaustive-deps
+  useEffect(() => {
+    createForm.reset(inputValue);
+  }, [inputValue]); // eslint-disable-line react-hooks/exhaustive-deps
   const formFields: {
     name: keyof z.infer<typeof insertAppSchema>;
     placeholder: string;
-    className: string;
-    label?: string;
   }[] = [
     {
       name: "name",
-      label: "name (tip: use an existing app name to edit it)",
       placeholder: "app name",
-      className: "w-56",
     },
     {
       name: "description",
       placeholder: "app description",
-      className: "w-64",
     },
     {
       name: "url",
       placeholder: "app url",
-      className: "w-72",
     },
     {
       name: "image",
       placeholder: "app image",
-      className: "w-[24rem]",
     },
   ];
   return (
     <div className="justify-center flex flex-col h-full">
-      <h1 className="text-2xl font-bold text-center">Apps</h1>
       {!isLoading ? (
         <div className="flex flex-row">
-          <Table className="my-4">
+          <Table className="my-4 border-b">
             <TableHeader>
               <TableRow>
                 {Object.keys(appSchema).map((key) => (
@@ -127,7 +116,8 @@ export default function Page() {
                           variant="ghost"
                           onClick={() => {
                             setInputValue(app);
-                            setButtonIcon(<PencilIcon />);
+                            setDisabledInput(true);
+                            setButtonText("Edit");
                           }}
                         >
                           <PencilIcon className="size-4" />
@@ -141,11 +131,10 @@ export default function Page() {
           </Table>
         </div>
       ) : (
-        <div className="flex justify-center h-[80vh] items-center">
-          <Skeleton className="h-[calc(100%_-_2rem)] mx-6 w-full" />
+        <div className="flex flex-col h-screen justify-center items-center">
+          <Loader2 className="mx-auto my-4 size-24 animate-spin" />
         </div>
       )}
-      <h1 className="text-lg font-bold text-center -my-2">Add new</h1>
       <Form {...createForm}>
         <form
           className="flex justify-start gap-1"
@@ -168,11 +157,11 @@ export default function Page() {
                 }
                 return response.json();
               });
-              createForm.reset();
+              createForm.reset(inputValue);
               mutate("/api/apps");
               toast({
                 title: "Success",
-                description: "App added successfully",
+                description: "App updated successfully",
               });
             },
           )}
@@ -189,10 +178,10 @@ export default function Page() {
                     <FormMessage />
                     <FormControl>
                       <Input
+                        className="w-72"
                         {...field}
-                        className={formField.className}
                         {...(formField.name === "name" && {
-                          disabled: !!inputValue.name,
+                          disabled: disabledInput,
                         })}
                       />
                     </FormControl>
@@ -205,33 +194,41 @@ export default function Page() {
             <Button
               type="reset"
               className="ml-2 self-end"
-              size="icon"
               variant="destructive"
               onClick={() => {
                 createForm.reset(
-                  {},
+                  {
+                    name: "",
+                    description: "",
+                    url: "",
+                    image: "",
+                  },
                   {
                     keepValues: false,
                     keepErrors: false,
                   },
                 );
-                setButtonIcon(<Save />);
+                setDisabledInput(false);
+                setInputValue({
+                  name: "",
+                  description: "",
+                  url: "",
+                  image: "",
+                });
+                setButtonText("Save");
               }}
             >
-              <span className="[&>svg]:size-5">
-                <ListRestartIcon />
-              </span>
+              Reset
             </Button>
-            <Button type="submit" className="ml-2 self-end" size="icon">
-              <span className="[&>svg]:size-5">{buttonIcon}</span>
+            <Button type="submit" className="ml-2 self-end">
+              {buttonText}
             </Button>
           </div>
         </form>
       </Form>
-      <h1 className="text-lg font-bold text-center my-6">Delete</h1>
       <Form {...deleteForm}>
         <form
-          className="flex justify-center gap-1"
+          className="flex justify-start gap-1 py-12"
           onSubmit={deleteForm.handleSubmit(async (values) => {
             await fetch("/api/admin/apps", {
               method: "DELETE",
@@ -264,6 +261,8 @@ export default function Page() {
               name="name"
               render={({ field }) => (
                 <FormItem className="ml-4">
+                  <FormLabel>name</FormLabel>
+                  <FormMessage />
                   <Select
                     onValueChange={field.onChange}
                     defaultValue={field.value}
@@ -275,7 +274,7 @@ export default function Page() {
                     </FormControl>
                     <SelectContent>
                       {apps.map((app, key) => (
-                        <SelectItem key={key} value={app.name}>
+                        <SelectItem key={key} value={app.name!}>
                           {app.name}
                         </SelectItem>
                       ))}
@@ -286,10 +285,12 @@ export default function Page() {
             />
           </section>
           <div className="flex flex-row">
-            <Button type="submit" className="ml-2 self-end" size="icon">
-              <span className="[&>svg]:size-5">
-                <TrashIcon />
-              </span>
+            <Button
+              type="submit"
+              className="ml-2 self-end"
+              variant="destructive"
+            >
+              Delete
             </Button>
           </div>
         </form>
