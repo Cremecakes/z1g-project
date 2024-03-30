@@ -46,7 +46,7 @@ const insertAppSchema = z.object({
 export default function Page() {
   const { data: apps = [], isLoading } = useSWR<
     z.infer<typeof insertAppSchema>[]
-  >("/api/apps", fetcher);
+  >("/api/apps", fetcher, { refreshInterval: 15000 });
   const { mutate } = useSWRConfig();
   const { toast } = useToast();
   const [disabledInput, setDisabledInput] = useState(false);
