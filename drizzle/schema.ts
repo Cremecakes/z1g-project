@@ -8,6 +8,7 @@ export const app = pgTable(
     description: text("description").notNull().default(""),
     url: text("url").notNull(),
     image: text("image").notNull(),
+    icon: text("icon").notNull().default(""),
   },
   (table) => {
     return {

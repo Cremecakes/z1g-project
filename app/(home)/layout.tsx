@@ -32,19 +32,20 @@ export default async function HomeLayout({
                     href="/auth/logout"
                     className="hover:text-foreground text-muted-foreground text-sm duration-300"
                   >
-                    Log Out
+                    Logout
                   </Link>
-                  <div className="text-foreground">|</div>
-
-                  <div className="text-secondary-foreground text-sm flex justify-center items-center">
+                  <div className="text-foreground hidden sm:block">|</div>
+                  <div className="text-seondary-foreground text-sm flex justify-center items-center text-nowrap py-2">
                     <Image
                       src={session?.user?.image as string}
                       alt="User Image"
                       width={25}
                       height={25}
-                      className="rounded-full mr-2"
+                      className="rounded-full mr-2 hidden sm:block"
                     />
-                    Welcome, {session?.user?.name || session?.user?.email}
+                    <p className="hidden sm:block">
+                      Welcome, {session?.user?.name || session?.user?.email}
+                    </p>
                   </div>
                 </>
               ) : (

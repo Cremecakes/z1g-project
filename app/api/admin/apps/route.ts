@@ -8,7 +8,12 @@ export async function POST(req: Request) {
     .values(data)
     .onConflictDoUpdate({
       target: app.name,
-      set: { description: data.description, url: data.url, image: data.image },
+      set: {
+        description: data.description,
+        url: data.url,
+        image: data.image,
+        icon: data.icon,
+      },
     })
     .catch((error) => {
       console.error(error);

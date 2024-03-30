@@ -29,7 +29,7 @@ export const layoutOptions: Omit<DocsLayoutProps, "children"> = {
           height={32}
           className="max-md:hidden -mr-2"
         />
-        <span className="ml-3 font-semibold max-md:hidden text-lg">
+        <span className="ml-3 font-semibold max-md:hidden text-lg text-nowrap">
           z1g Project
         </span>
       </>

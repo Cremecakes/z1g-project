@@ -42,6 +42,7 @@ const insertAppSchema = z.object({
   description: z.string().min(10).max(135),
   url: z.string().url(),
   image: z.string().url(),
+  icon: z.string().url(),
 });
 export default function Page() {
   const { data: apps = [], isLoading } = useSWR<
@@ -50,12 +51,15 @@ export default function Page() {
   const { mutate } = useSWRConfig();
   const { toast } = useToast();
   const [disabledInput, setDisabledInput] = useState(false);
-  const [inputValue, setInputValue] = useState({
-    name: "",
-    description: "",
-    url: "",
-    image: "",
-  });
+  const [inputValue, setInputValue] = useState<z.infer<typeof insertAppSchema>>(
+    {
+      name: "",
+      description: "",
+      url: "",
+      image: "",
+      icon: "",
+    },
+  );
   const [buttonText, setButtonText] = useState("Save");
   const deleteForm = useForm<z.infer<typeof deleteAppSchema>>({
     resolver: zodResolver(deleteAppSchema),
@@ -87,6 +91,10 @@ export default function Page() {
       name: "image",
       placeholder: "app image",
     },
+    {
+      name: "icon",
+      placeholder: "app icon",
+    },
   ];
   return (
     <div className="justify-center flex flex-col h-full">
@@ -94,9 +102,12 @@ export default function Page() {
         <div className="flex flex-row">
           <Table className="my-4 border-b">
             <TableHeader>
-              <TableRow>
+              <TableRow className="h-auto flex flex-row items-center justify-center">
                 {Object.keys(appSchema).map((key) => (
-                  <TableHead key={key} className="text-start w-auto">
+                  <TableHead
+                    key={key}
+                    className="text-ellipsis w-[32rem] text-xs"
+                  >
                     {key}
                   </TableHead>
                 ))}
@@ -104,14 +115,20 @@ export default function Page() {
             </TableHeader>
             <TableBody>
               {apps.map((app, key) => (
-                <TableRow key={key}>
+                <TableRow
+                  key={key}
+                  className="h-auto flex flex-row items-center"
+                >
                   {Object.keys(app).map((key) => (
-                    <TableCell className="text-ellipsis w-1/4" key={key}>
+                    <TableCell
+                      className="text-ellipsis w-[32rem] text-xs"
+                      key={key}
+                    >
                       {app[key as keyof typeof app]}
                       {key === "name" && (
                         <Button
                           key={key}
-                          className="ml-4 text-muted-foreground"
+                          className="ml-2 text-muted-foreground"
                           size="sm"
                           variant="ghost"
                           onClick={() => {
@@ -137,7 +154,7 @@ export default function Page() {
       )}
       <Form {...createForm}>
         <form
-          className="flex justify-start gap-1"
+          className="flex justify-start gap-1 flex-wrap"
           onSubmit={createForm.handleSubmit(
             async (values: z.infer<typeof insertAppSchema>) => {
               await fetch("/api/admin/apps", {
@@ -166,19 +183,19 @@ export default function Page() {
             },
           )}
         >
-          <section className="flex flex-row">
+          <section className="flex flex-row flex-wrap">
             {formFields.map((formField, key) => (
               <FormField
                 key={key}
                 control={createForm.control}
                 name={formField.name as keyof z.infer<typeof insertAppSchema>}
                 render={({ field }) => (
-                  <FormItem className="ml-4">
+                  <FormItem className="ml-2 mt-2">
                     <FormLabel>{formField.name}</FormLabel>
                     <FormMessage />
                     <FormControl>
                       <Input
-                        className="w-72"
+                        className="w-56"
                         {...field}
                         {...(formField.name === "name" && {
                           disabled: disabledInput,
@@ -193,7 +210,7 @@ export default function Page() {
           <div className="flex flex-row">
             <Button
               type="reset"
-              className="ml-2 self-end"
+              className="mx-2 self-end mt-2"
               variant="destructive"
               onClick={() => {
                 createForm.reset(
@@ -202,6 +219,7 @@ export default function Page() {
                     description: "",
                     url: "",
                     image: "",
+                    icon: "",
                   },
                   {
                     keepValues: false,
@@ -214,6 +232,7 @@ export default function Page() {
                   description: "",
                   url: "",
                   image: "",
+                  icon: "",
                 });
                 setButtonText("Save");
               }}
