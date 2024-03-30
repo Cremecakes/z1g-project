@@ -1,11 +1,4 @@
-import { withAuth } from "next-auth/middleware";
-export default withAuth({
-  pages: {
-    signIn: "/auth/login",
-    signOut: "/auth/logout",
-    error: "/auth/error",
-  },
-});
+export { auth as default } from "./auth.config";
 export const config = {
   matcher: ["/(admin|api/admin)(/.*)?"],
 };

@@ -39,14 +39,14 @@ const deleteAppSchema = z.object({
 });
 const insertAppSchema = z.object({
   name: z.string().min(2),
-  description: z.string().min(10),
+  description: z.string().min(10).max(135),
   url: z.string().url(),
   image: z.string().url(),
 });
 export default function Page() {
   const { data: apps = [], isLoading } = useSWR<
     z.infer<typeof insertAppSchema>[]
-  >("/api/apps", fetcher, { refreshInterval: 15000 });
+  >("/api/apps", fetcher, { refreshInterval: 10000 });
   const { mutate } = useSWRConfig();
   const { toast } = useToast();
   const [disabledInput, setDisabledInput] = useState(false);
