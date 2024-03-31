@@ -1,7 +1,12 @@
 import { db } from "@/drizzle";
 import { app } from "@/drizzle/schema";
 import { eq } from "drizzle-orm";
+import { auth } from "@/auth.config";
 export async function POST(req: Request) {
+  const session = await auth();
+  if (!session) {
+    return Response.json({ error: "Unauthorized" }, { status: 401 });
+  }
   const data = await req.json();
   await db
     .insert(app)
