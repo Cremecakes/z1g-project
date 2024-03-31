@@ -1,5 +1,6 @@
 "use client";
 import { useState, useEffect } from "react";
+import Image from "next/image";
 import { app as appSchema } from "@/drizzle/schema";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -102,12 +103,9 @@ export default function Page() {
         <div className="flex flex-row">
           <Table className="my-4 border-b">
             <TableHeader>
-              <TableRow className="h-auto flex flex-row items-center justify-center">
+              <TableRow>
                 {Object.keys(appSchema).map((key) => (
-                  <TableHead
-                    key={key}
-                    className="text-ellipsis w-[32rem] text-xs"
-                  >
+                  <TableHead key={key} className="text-ellipsis text-sm">
                     {key}
                   </TableHead>
                 ))}
@@ -115,16 +113,28 @@ export default function Page() {
             </TableHeader>
             <TableBody>
               {apps.map((app, key) => (
-                <TableRow
-                  key={key}
-                  className="h-auto flex flex-row items-center"
-                >
+                <TableRow key={key}>
                   {Object.keys(app).map((key) => (
-                    <TableCell
-                      className="text-ellipsis w-[32rem] text-xs"
-                      key={key}
-                    >
-                      {app[key as keyof typeof app]}
+                    <TableCell className="text-ellipsis text-sm" key={key}>
+                      {key === "icon" ? (
+                        <Image
+                          className="w-12 h-12 aspect-square"
+                          src={app[key as keyof typeof app]}
+                          alt={app.name}
+                          width={32}
+                          height={32}
+                        />
+                      ) : key === "image" ? (
+                        <Image
+                          className="aspect-auto"
+                          src={app[key as keyof typeof app]}
+                          alt={app.name}
+                          width={150}
+                          height={75}
+                        />
+                      ) : (
+                        app[key as keyof typeof app]
+                      )}
                       {key === "name" && (
                         <Button
                           key={key}
@@ -174,7 +184,13 @@ export default function Page() {
                 }
                 return response.json();
               });
-              createForm.reset(inputValue);
+              createForm.reset({
+                name: "",
+                description: "",
+                url: "",
+                image: "",
+                icon: "",
+              });
               mutate("/api/apps");
               toast({
                 title: "Success",
@@ -267,6 +283,7 @@ export default function Page() {
               return response.json();
             });
             deleteForm.reset();
+            setDisabledInput(false);
             mutate("/api/apps");
             toast({
               title: "Success",
