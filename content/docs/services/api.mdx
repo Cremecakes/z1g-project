@@ -1,0 +1,86 @@
+---
+title: API
+---
+
+import { TypeTable } from "fumadocs-ui/components/type-table";
+
+The z1g Project has an API for fetching games and app information, that is used by Sodium and Ephemeral. It's built with Next.js, and is hosted on Vercel. PostgreSQL with Drizzle ORM is used for the database. The source code is available on [GitHub](https://github.com/z1g-project/backend).
+
+## Apps API
+
+Currently, the only public endpoint is the apps API, which fetches information from the database. The endpoint is [`https://z1g=backend.vercel.app/api/apps`](https://z1g-backend.vercel.app/api/apps). The response is a JSON object returning the status, and an array of apps.
+
+Example Response:
+
+```json
+{
+  "status": "success",
+  "data": [
+    {
+      "name": "Amazon",
+      "description": "Free shipping on millions of items. Get the best of Shopping and Entertainment with Prime. ",
+      "url": "https://amazon.com",
+      // image API
+      "image": "https://z1g-backend.vercel.app/api/images?url=https://m.media-amazon.com/images/I/31epF-8N9LL.png&size=750&color=white",
+      "icon": "https://m.media-amazon.com/images/I/31epF-8N9LL.png"
+    }
+    // more apps...
+  ]
+}
+```
+
+The type of the `data` property is as follows:
+
+<TypeTable
+  type={{
+    name: {
+      description: "The name of the app",
+      type: "string",
+    },
+    description: {
+      description: "A brief description of the app",
+      type: "string",
+    },
+    url: {
+      description: "The URL of the app",
+      type: "string",
+    },
+    image: {
+      description:
+        "The URL of the app's Open Graph image. It could also be the app's icon on a rectangular background.",
+      type: "string",
+    },
+    icon: {
+      description: "The URL of the app's icon",
+      type: "string",
+    },
+  }}
+/>
+### Errors
+
+If there is an error with the request the API will return code `500` with
+the status `error` and an `error` object. The `error` object will contain a
+`message` and a `detail` property.
+Example Response:
+
+```json
+{
+  "status": "error",
+  "error": {
+    "message": "An error occurred while retrieving the apps",
+    "detail": "<error message would go here>"
+  }
+}
+```
+
+## Image API
+
+The Image API is used to generate a 16:9 image from a square app icon. The endpoint is [`https://z1g-backend.vercel.app/api/images`](https://z1g-backend.vercel.app/api/images). An example of this being used is [here](https://z1g-backend.vercel.app/api/images?url=https://m.media-amazon.com/images/I/31epF-8N9LL.png&size=750&color=white)
+
+The query parameters are as follows:
+
+`url`: The URL of the image to be resized.
+
+`size`: This will be the width and height of the image displayed on the image
+
+`color`: The color of the background of the image. This can be either black or white.

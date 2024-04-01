@@ -2,6 +2,7 @@ import { getPage, getPages } from "@/app/source";
 import type { Metadata } from "next";
 import { DocsPage, DocsBody } from "fumadocs-ui/page";
 import { Card, Cards } from "fumadocs-ui/components/card";
+// import { ImageZoom } from "fumadocs-ui/components/image-zoom";
 import { notFound } from "next/navigation";
 import { ExternalLinkIcon } from "lucide-react";
 export default async function Page({
@@ -41,6 +42,7 @@ export default async function Page({
           components={{
             Card: (props) => <Card {...props} />,
             Cards: (props) => <Cards {...props} />,
+            // img: (props) => <ImageZoom {...props} />,
           }}
         />
       </DocsBody>
