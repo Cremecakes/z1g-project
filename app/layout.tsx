@@ -1,6 +1,5 @@
 import "./global.css";
 import { RootProvider } from "fumadocs-ui/provider";
-import { Toaster } from "@/components/ui/toaster";
 import { SpeedInsights } from "@vercel/speed-insights/next";
 import { Metadata } from "next";
 import { GeistSans } from "geist/font/sans";
@@ -22,10 +21,7 @@ export default function Layout({ children }: { children: ReactNode }) {
   return (
     <html lang="en" className={GeistSans.className} suppressHydrationWarning>
       <body>
-        <RootProvider>
-          <Toaster />
-          {children}
-        </RootProvider>
+        <RootProvider>{children}</RootProvider>
         <SpeedInsights />
       </body>
     </html>
