@@ -1,0 +1,8 @@
+---
+title: Static Hosting
+description: Using Ephemeral on a static hosting provider
+---
+
+Hosting Ephemeral on a static host is really easy on most hosts. 
+When you go to deploy the repository, you can specify the build command to `pnpm build` and the public directory to `dist`. This will build the site and output it to the `dist` directory. 
+If your provider has a vite preset (like Vercel), you can use that to automatically build the site for you. Make sure to set the `VITE_WISP_SERVER` environment variable to a public wisp server. 
