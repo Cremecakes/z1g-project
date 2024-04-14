@@ -9,7 +9,7 @@ The z1g Project has an API for fetching games and app information, that is used 
 
 ## Apps API
 
-The Apps API returns app information from the database. The endpoint is [`https://z1g-backend.vercel.app/api/apps`](https://z1g-backend.vercel.app/api/apps). The response is a JSON object returning the status, and an array of apps.
+The Apps API returns app information from the database. The endpoint is [`https://api.z1g.top/api/apps`](https://api.z1g.top/api/apps). The response is a JSON object returning the status, and an array of apps.
 
 Example Response:
 
@@ -22,7 +22,7 @@ Example Response:
       "description": "Free shipping on millions of items. Get the best of Shopping and Entertainment with Prime. ",
       "url": "https://amazon.com",
       // image API
-      "image": "https://z1g-backend.vercel.app/api/images?url=https://m.media-amazon.com/images/I/31epF-8N9LL.png&size=750&color=white",
+      "image": "https://api.z1g.top/api/images?url=https://m.media-amazon.com/images/I/31epF-8N9LL.png&size=750&color=white",
       "icon": "https://m.media-amazon.com/images/I/31epF-8N9LL.png"
     }
     // more apps...
@@ -76,7 +76,7 @@ Example Response:
 
 ## Image API
 
-The Image API is used to generate a 16:9 image from a square app icon. The endpoint is [`https://z1g-backend.vercel.app/api/images`](https://z1g-backend.vercel.app/api/images). An example of this being used is [here](https://z1g-backend.vercel.app/api/images?url=https://m.media-amazon.com/images/I/31epF-8N9LL.png&size=750&color=white)
+The Image API is used to generate a 16:9 image from a square app icon. The endpoint is [`https://api.z1g.top/api/images`](https://api.z1g.top/api/images). An example of this being used is [here](https://api.z1g.top/api/images?url=https://m.media-amazon.com/images/I/31epF-8N9LL.png&size=750&color=white)
 
 The query parameters are as follows:
 
