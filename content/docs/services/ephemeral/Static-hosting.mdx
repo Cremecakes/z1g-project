@@ -2,27 +2,28 @@
 title: Static Hosting
 description: Using Ephemeral on a static hosting provider
 ---
+
 import { Step, Steps } from "fumadocs-ui/components/steps";
 
 Hosting Ephemeral on a static host is really easy.
 
 <Steps>
-<Step>
-## Configuring the host
-Configure your host to build the project using `pnpm build` and point the output directory to `dist`. If they have a "Vite" option, use that.
-![Vercel Example](/img/static-hosting-configure-vercel.png)
-![Cloudflare Example](/img/static-hosting-configure-cf.png)
-</Step>
-<Step>
-## Defining the Wisp Server
-In your host, there should be a way of setting environment variables. Set the `VITE_WISP_SERVER` variable to a Wisp server URL. 
-![Vercel Example](/img/static-hosting-env-vercel.png)
-![Cloudflare Example](/img/static-hosting-env-cf.png)
-</Step>
-<Step>
-## Deploy
-Deploy your project. The host should build the project and serve it with the Wisp server.
-![Vercel Example](/img/static-hosting-deploy-vercel.jpeg)
-</Step>
+  <Step>
+    ## Configuring the host Configure your host to build the project using `pnpm
+    build` and point the output directory to `dist`. If they have a "Vite"
+    option, use that. ![Vercel
+    Example](/img/static-hosting-configure-vercel.png) ![Cloudflare
+    Example](/img/static-hosting-configure-cf.png)
+  </Step>
+  <Step>
+    ## Defining the Wisp Server In your host, there should be a way of setting
+    environment variables. Set the `VITE_WISP_SERVER` variable to a Wisp server
+    URL. ![Vercel Example](/img/static-hosting-env-vercel.png) ![Cloudflare
+    Example](/img/static-hosting-env-cf.png)
+  </Step>
+  <Step>
+    ## Deploy Deploy your project. The host should build the project and serve
+    it with the Wisp server. ![Vercel
+    Example](/img/static-hosting-deploy-vercel.jpeg)
+  </Step>
 </Steps>
-
